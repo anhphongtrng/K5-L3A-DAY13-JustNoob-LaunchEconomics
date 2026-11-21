@@ -62,6 +62,56 @@ if __name__ == '__main__':
         print(f'{ten:12s} {gia_tri:>14,.0f}')
     # TODO CP1 · Nhiệm vụ A3: tính lại theo từng giá trị của cột loai.
     # TODO CP2 · Nhiệm vụ B: đổi từng yếu tố, ghi vào bảng độ nhạy.
-    # TODO CP4 · Nhiệm vụ D: cỡ mẫu.
-    #   from statsmodels.stats.proportion import proportion_effectsize
-    #   from statsmodels.stats.power import NormalIndPower
+    # CP4 · D1: cỡ mẫu theo yêu cầu, nhân viên và depot.
+    from statistics import NormalDist
+
+    ty_le_goc = 0.70
+    ty_le_muc_tieu = 0.75
+    alpha = 0.05
+    power = 0.80
+    icc = 0.02
+    phan_phoi_chuan = NormalDist()
+    z_alpha = phan_phoi_chuan.inv_cdf(1 - alpha / 2)
+    z_power = phan_phoi_chuan.inv_cdf(power)
+    ty_le_trung_binh = (ty_le_goc + ty_le_muc_tieu) / 2
+    phuong_sai_gop = 2 * ty_le_trung_binh * (1 - ty_le_trung_binh)
+    phuong_sai_rieng = ty_le_goc * (1 - ty_le_goc) + ty_le_muc_tieu * (1 - ty_le_muc_tieu)
+    chenhlech = ty_le_muc_tieu - ty_le_goc
+    mau_moi_nhom = math.ceil(
+        ((z_alpha * math.sqrt(phuong_sai_gop) + z_power * math.sqrt(phuong_sai_rieng)) / chenhlech) ** 2
+    )
+
+    yeu_cau_moi_nhan_vien = 75
+    he_so_thiet_ke = 1 + (yeu_cau_moi_nhan_vien - 1) * icc
+    mau_theo_nhan_vien = math.ceil(mau_moi_nhom * he_so_thiet_ke)
+    nhan_vien_can_moi_nhom = math.ceil(mau_theo_nhan_vien / yeu_cau_moi_nhan_vien)
+
+    nhan_vien_moi_nhom = 20
+    depot_moi_nhom = 6
+    gioi_han_theo_nhan_vien = nhan_vien_moi_nhom / icc
+    gioi_han_theo_depot = depot_moi_nhom / icc
+
+    # Đề bài cho sẵn mục tiêu 859 mẫu hiệu dụng mỗi nhóm ở mức chênh 6 điểm.
+    mau_hieu_dung_muc_tieu = 859
+    yeu_cau_toi_thieu = math.ceil(
+        mau_hieu_dung_muc_tieu * (1 - icc)
+        / (nhan_vien_moi_nhom - mau_hieu_dung_muc_tieu * icc)
+    )
+    he_so_thiet_ke_6_diem = 1 + (yeu_cau_toi_thieu - 1) * icc
+
+    print('\nD1 · Cỡ mẫu pilot')
+    print(f'a) Theo yêu cầu: {mau_moi_nhom} yêu cầu/nhóm.')
+    print(
+        f'b) DE = {he_so_thiet_ke:.2f}, {mau_theo_nhan_vien} yêu cầu/nhóm, '
+        f'{nhan_vien_can_moi_nhom} nhân viên/nhóm, '
+        f'tổng {2 * nhan_vien_can_moi_nhom} > 40 nên không đủ nhân viên.'
+    )
+    print(
+        f'c) 20 nhân viên/nhóm: mẫu hiệu dụng < {gioi_han_theo_nhan_vien:.0f}, '
+        f'không đạt {mau_moi_nhom}.'
+    )
+    print(
+        f'd) 6 depot/nhóm: mẫu hiệu dụng < {gioi_han_theo_depot:.0f}, '
+        f'không đạt {mau_moi_nhom}.'
+    )
+    print(f'e) Mức chênh 6 điểm: {yeu_cau_toi_thieu} yêu cầu/nhân viên, DE = {he_so_thiet_ke_6_diem:.2f}.')
