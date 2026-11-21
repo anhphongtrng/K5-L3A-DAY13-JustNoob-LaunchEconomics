@@ -10,13 +10,15 @@
 #   e) Mức chênh 6 điểm (859 mỗi nhóm), 20 nhân viên mỗi nhóm: cần ít nhất 299 yêu cầu mỗi nhân viên, DE = 6,96.
 #
 # D2 · Năm câu kiểm tra "tách được tác động" với cách chia đã chọn (mỗi câu một dòng):
-#   1. Đối chứng chạy cùng thời gian:
-#   2. Chia ngẫu nhiên hay do người chọn:
-#   3. Ảnh hưởng gián tiếp và cách giảm:
-#   4. Chỉ số chính, ngưỡng, ngày quyết định đã viết trước:
-#   5. Ít nhất 20 cụm mỗi nhóm:
+#   1. Đối chứng chạy cùng thời gian: Có, 20 nhân viên đối chứng tiếp tục xử lý thủ công cùng thời gian và tại các depot tham gia.
+#   2. Chia ngẫu nhiên hay do người chọn: Bốc thăm theo nhân viên, phân tầng theo depot; ghi seed và khóa danh sách 20/20 trước rollout.
+#   3. Ảnh hưởng gián tiếp và cách giảm: Có thể chia sẻ gợi ý trong depot. Giới hạn quyền theo tài khoản và giám sát lượt mở trợ lý theo staff_id.
+#   4. Chỉ số chính, ngưỡng, ngày quyết định đã viết trước: Chốt trước khi chạy; ngày quyết định và luật dừng sẽ điền ở D3.
+#   5. Ít nhất 20 cụm mỗi nhóm: Có, đúng 20 nhân viên mỗi nhóm khi rollout đạt 50%; bắt đầu đo chỉ số chính ở bước này.
 #
-# Đánh đổi đã chấp nhận (nếu cách chia chưa đạt cả hai điều kiện):
+# Đánh đổi đã chấp nhận: Chia theo nhân viên để giảm ảnh hưởng giữa hai nhóm. Theo D1(c), cỡ mẫu hiệu dụng < 1.000 mỗi nhóm nên thiếu so với 1.251 để phát hiện +5 điểm phần trăm ở power 80%.
+# Theo D1(e), thiết kế cho +6 điểm phần trăm cần ít nhất 299 yêu cầu đủ điều kiện/nhân viên (5.980 yêu cầu thực tế/nhóm, khoảng 859 mẫu hiệu dụng, DE = 6,96).
+# Nếu chênh lệch thật là +5 điểm phần trăm thì power khoảng 64% theo hướng dẫn D1. MDE +6 điểm là tham số thiết kế; tiêu chí kinh doanh của đề bài vẫn là +5 điểm.
 #
 # Tỉ lệ mo_lai_trong_7_ngay hiện tại và ngưỡng an toàn đã chọn:
 
@@ -24,23 +26,23 @@ pilot:
   owner: "?"                      # một người có tên vai trò, không ghi "cả đội"
   scope: "?"                      # loại yêu cầu nào, depot nào; dựa vào kết quả A3
   assignment:
-    unit: "?"                     # request | staff | depot
+    unit: staff
     control_share: 0.5
     randomized: true
   rollout: [0.10, 0.25, 0.50]     # mỗi bước một tuần
   primary_metric:
     name: dong_trong_24h_khong_mo_lai_7_ngay
     baseline: 0.70
-    mde: 0.05
+    mde: 0.06
     alpha: 0.05
     power: 0.80
-    n_per_arm: "?"
-    design_effect: "?"            # 1 nếu chia theo yêu cầu
-    clusters_per_arm: "?"         # để trống nếu chia theo yêu cầu
+    n_per_arm: 859                # cỡ mẫu hiệu dụng; thu ít nhất 5.980 yêu cầu thực tế mỗi nhóm
+    design_effect: 6.96
+    clusters_per_arm: 20
   identifiability:
-    concurrent_control: "?"
-    spillover_risk: "?"
-    predeclared: "?"
+    concurrent_control: "Nhóm đối chứng giữ nguyên và xử lý thủ công cùng thời gian với nhóm can thiệp. Tính chỉ số chính từ khi có đủ 20 nhân viên can thiệp ở bước rollout 50%."
+    spillover_risk: "Nhân viên cùng depot có thể chia sẻ gợi ý. Chỉ cấp quyền cho tài khoản can thiệp và kiểm tra log mở trợ lý theo staff_id để phát hiện sử dụng ngoài nhóm."
+    predeclared: "Ghi trước chỉ số chính, ngưỡng quyết định, luật dừng, seed phân nhóm và ngày quyết định. Chốt các giá trị còn thiếu ở D3 trước khi bắt đầu pilot."
   stop_rules:
     - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
     - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
