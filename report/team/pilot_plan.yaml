@@ -20,7 +20,8 @@
 # Theo D1(e), thiết kế cho +6 điểm phần trăm cần ít nhất 299 yêu cầu đủ điều kiện/nhân viên (5.980 yêu cầu thực tế/nhóm, khoảng 859 mẫu hiệu dụng, DE = 6,96).
 # Nếu chênh lệch thật là +5 điểm phần trăm thì power khoảng 64% theo hướng dẫn D1. MDE +6 điểm là tham số thiết kế; tiêu chí kinh doanh của đề bài vẫn là +5 điểm.
 #
-# Tỉ lệ mo_lai_trong_7_ngay hiện tại và ngưỡng an toàn đã chọn:
+# Căn cứ D3 từ src/logix_requests.csv (giả lập): mở lại 7 ngày = 51/1.200 (4,25%) toàn mẫu; 39/982 (3,97%) nếu lọc noi_dia + hang_nang.
+# Bỏ qua gợi ý = 48/177 (27,12%) trên các yêu cầu được xem lại. Lấy ngưỡng +2 điểm phần trăm, trần 6% và ngưỡng bỏ qua 40% từ hướng dẫn lab D3 làm ngưỡng vận hành.
 
 pilot:
   owner: "?"                      # một người có tên vai trò, không ghi "cả đội"
@@ -44,10 +45,10 @@ pilot:
     spillover_risk: "Nhân viên cùng depot có thể chia sẻ gợi ý. Chỉ cấp quyền cho tài khoản can thiệp và kiểm tra log mở trợ lý theo staff_id để phát hiện sử dụng ngoài nhóm."
     predeclared: "Ghi trước chỉ số chính, ngưỡng quyết định, luật dừng, seed phân nhóm và ngày quyết định. Chốt các giá trị còn thiếu ở D3 trước khi bắt đầu pilot."
   stop_rules:
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
-    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"
+    - "NẾU tỉ lệ mở lại trong 7 ngày của nhóm can thiệp cao hơn đối chứng ít nhất 2 điểm phần trăm hoặc vượt 6% TRONG 3 lần kiểm tra hằng ngày liên tiếp, mỗi lần dùng cửa sổ 7 ngày gần nhất có đủ thời gian theo dõi cho cả hai nhóm, THÌ Giám đốc vận hành kích hoạt quay lui trong 30 phút, KHÔNG THÌ giữ bước rollout hiện tại cho đến khi có đủ dữ liệu an toàn để duyệt bước tiếp."
+    - "NẾU ? TRONG ? THÌ ? KHÔNG THÌ ?"  # luật chi phí, chờ kết quả A/B
+    - "NẾU tỉ lệ bỏ qua gợi ý của nhóm can thiệp vượt 40%, tính bằng số yêu cầu có quyết định cuối là sua hoặc bo chia số yêu cầu đã xem lại, TRONG một tuần rollout đã kết thúc, THÌ Trưởng nhóm CSKH tạm dừng tăng rollout và phỏng vấn 5 nhân viên trong 3 ngày, KHÔNG THÌ chỉ tăng rollout khi các điều kiện an toàn và chi phí cũng đạt. Giữ nguyên bước nếu tuần đó chưa có yêu cầu được xem lại."
   interim_looks: "chỉ kiểm tra chỉ số an toàn"
-  rollback: "?"                   # ai bấm, mất bao lâu, khách được phục vụ bằng gì
+  rollback: "Trong vòng 30 phút từ khi kích hoạt, Giám đốc vận hành tắt cờ trợ lý và chuyển yêu cầu mới sang luồng CSKH thủ công. Trưởng nhóm CSKH chuyển các yêu cầu đang xử lý sang hàng đợi thủ công kèm trạng thái và trace_id. Nhân viên kiểm tra trạng thái giao dịch trong sổ cái trước khi gửi lại lệnh hoàn tiền để tránh hoàn trùng."
   decision_date: "?"
   simulated_inputs: ["?"]         # liệt kê mọi con số giả lập đã dùng
