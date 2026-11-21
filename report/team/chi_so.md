@@ -35,9 +35,11 @@ Mỗi event có `trace_id` để nối với trace và `request_id` để đếm
 
 ## E2 · Rủi ro kinh tế
 
-Ít nhất hai dòng, số lấy từ bảng độ nhạy (`bang_chi_phi.md`).
+Tác động lấy từ [bảng độ nhạy B1](bang_chi_phi.md#b1--đổi-từng-yếu-tố) trên toàn bộ 1.200 yêu cầu, so với mức gốc 4.472 đ/ca thành công (simulated). Mốc theo dõi lấy từ CSV giả lập, lọc `noi_dia` và `hang_nang` theo phạm vi pilot.
 
 | Rủi ro | Tác động đã tính | Dấu hiệu theo dõi | Hành động | Người phụ trách |
 | --- | --- | --- | --- | --- |
-| ... | ... | ... | ... | ... |
-| ... | ... | ... | ... | ... |
+| Nhân viên phải làm lại nhiều hơn | Chi phí làm lại gấp đôi đưa CPS lên **6.787 đ/ca**, tăng **51,8%** (simulated). | Cảnh báo nếu tỉ lệ làm lại theo tuần **vượt 7%**. Tử số là số yêu cầu phải làm lại, mẫu số là tổng yêu cầu trong phạm vi của nhóm can thiệp. Mốc chạy thử: **48/982 = 4,89%** (`ket_qua = lam_lai`). | Rà tối đa 20 trace phải làm lại trong tuần để tìm nguyên nhân và ưu tiên sửa luồng gây lỗi nhiều nhất. Nếu chi phí vượt luật D3, thu hẹp về `noi_dia` và giới hạn tối đa 2 lần chạy. | PM trợ lý hoàn phí |
+| Khối lượng xem lại tăng | Chi phí xem lại gấp đôi đưa CPS lên **6.292 đ/ca**, tăng **40,7%** (simulated). | Cảnh báo nếu tỉ lệ xem lại theo tuần **vượt 20%**. Tử số là số yêu cầu có `staff_review_decision`, mẫu số là tổng yêu cầu trong phạm vi của nhóm can thiệp. Mốc chạy thử: **128/982 = 13,03%** (`duoc_xem_lai = 1`). | Rà các yêu cầu phải xem lại theo loại và nguyên nhân. Sửa luồng gây xem lại nhiều nhất và giữ bước rollout hiện tại cho đến khi chi phí và an toàn đạt điều kiện D3. | Trưởng nhóm CSKH |
+
+Ngưỡng 7% và 20% dùng để cảnh báo sớm, cao hơn mốc chạy thử lần lượt khoảng 2,1 và 7,0 điểm phần trăm. Luật dừng chi phí áp dụng theo [kế hoạch pilot](pilot_plan.yaml).
