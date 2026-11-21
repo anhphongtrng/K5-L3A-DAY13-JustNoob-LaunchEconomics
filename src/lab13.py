@@ -125,6 +125,55 @@ def in_cp1(runs, reqs, goc):
               f'{cps:5,.0f} | {cps / BASELINE:.2f}× [simulated]')
 
 
+def in_cp2(runs, reqs, goc):
+    kich_ban = {
+        'Giá token gấp đôi': dict(gia_vao=2 * GIA_VAO, gia_ra=2 * GIA_RA),
+        'Giá token giảm một nửa': dict(gia_vao=GIA_VAO / 2, gia_ra=GIA_RA / 2),
+        'Xem lại gấp đôi': dict(he_so_xem_lai=2),
+        'Xem lại giảm một nửa': dict(he_so_xem_lai=0.5),
+        'Làm lại gấp đôi': dict(he_so_lam_lai=2),
+        'Làm lại giảm một nửa': dict(he_so_lam_lai=0.5),
+        'Lương tăng 25%': dict(luong_phut=1.25 * LUONG_PHUT),
+        'Tối đa 2 lần chạy': dict(max_lan_chay=2),
+        'Chỉ 1 lần chạy': dict(max_lan_chay=1),
+    }
+    ket_qua = {ten: mo_hinh(runs, reqs, **tham_so) for ten, tham_so in kich_ban.items()}
+    print('\nB1 · Độ nhạy (đ/ca thành công | thay đổi)')
+    for ten, kq in ket_qua.items():
+        print(f"{ten:25s} {kq['cps']:>7,.0f} | {kq['cps'] / goc['cps'] - 1:+6.1%} [simulated]")
+
+    doi_cap = mo_hinh(runs, reqs, **kich_ban['Giá token gấp đôi'], **kich_ban['Xem lại gấp đôi'])
+    xep_hang = {
+        'giá token': ket_qua['Giá token gấp đôi']['cps'] - goc['cps'],
+        'làm lại': ket_qua['Làm lại gấp đôi']['cps'] - goc['cps'],
+        'xem lại': ket_qua['Xem lại gấp đôi']['cps'] - goc['cps'],
+        'lương nhân viên': ket_qua['Lương tăng 25%']['cps'] - goc['cps'],
+    }
+    print(f"\nB2 · Token và xem lại gấp đôi: {doi_cap['cps']:,.0f} đ | "
+          f"{doi_cap['cps'] / goc['cps'] - 1:+.1%} [simulated]")
+    ba_yeu_to = sorted(xep_hang, key=xep_hang.get, reverse=True)[:3]
+    print('Ba yếu tố nhạy nhất: ' + ' → '.join(ba_yeu_to))
+
+    print('\nB3 · Giới hạn (lần | đ trợ lý | số không thành công | đ hệ thống | đ/ca thành công)')
+    for gioi_han, kq in enumerate((ket_qua['Chỉ 1 lần chạy'], ket_qua['Tối đa 2 lần chạy'], goc), 1):
+        khong_thanh_cong = len(reqs) - kq['thanh_cong']
+        he_thong = kq['tong'] + khong_thanh_cong * BASELINE
+        print(f"{gioi_han} | {kq['tong']:>9,.0f} | {khong_thanh_cong} | "
+              f"{he_thong:>9,.0f} | {kq['cps']:>5,.0f} [simulated]")
+
+    pham_vi = reqs[reqs['loai'].isin(PHAM_VI_PILOT)]
+    runs_ok = runs[runs['status'].eq('ok') & runs['request_id'].isin(pham_vi['request_id'])]
+    ca_xem_lai = runs_ok['request_id'].nunique()
+    ca_lam_lai = pham_vi['ket_qua'].eq('lam_lai').sum()
+    so_phut_lam_lai = reqs.loc[reqs['ket_qua'].eq('lam_lai'), 'phut_lam_lai_simulated'].mean()
+    kq = mo_hinh(runs, pham_vi)
+    print(f'\nB4 · Xem lại 100%: {ca_xem_lai} ca xem lại, {ca_lam_lai} ca làm lại')
+    for phut_lam_lai in (9, round(so_phut_lam_lai, 1)):
+        tong = kq['token'] + kq['tool'] + LUONG_PHUT * (ca_xem_lai * 5 + ca_lam_lai * phut_lam_lai)
+        cps = tong / kq['thanh_cong']
+        print(f'{phut_lam_lai:g} phút làm lại: {cps:,.0f} đ/ca | {cps / BASELINE:.2f}× [simulated]')
+
+
 def in_cp4():
     # CP4 · D1: cỡ mẫu theo yêu cầu, nhân viên và depot.
     from statistics import NormalDist
@@ -182,8 +231,8 @@ def in_cp4():
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Lab 13 · Chi phí và cỡ mẫu pilot')
-    parser.add_argument('--checkpoint', choices=('1', '4'), help='Chỉ in bảng của checkpoint đã chọn')
+    parser = argparse.ArgumentParser(description='Lab 13 · Chi phí, độ nhạy và cỡ mẫu pilot')
+    parser.add_argument('--checkpoint', choices=('1', '2', '4'), help='Chỉ in bảng của checkpoint đã chọn')
     args = parser.parse_args()
 
     kiem_tra_dap_an_biet_truoc()
@@ -193,5 +242,7 @@ if __name__ == '__main__':
         ket_qua = mo_hinh(runs, reqs)
         if args.checkpoint in (None, '1'):
             in_cp1(runs, reqs, ket_qua)
+        if args.checkpoint in (None, '2'):
+            in_cp2(runs, reqs, ket_qua)
     if args.checkpoint in (None, '4'):
         in_cp4()
