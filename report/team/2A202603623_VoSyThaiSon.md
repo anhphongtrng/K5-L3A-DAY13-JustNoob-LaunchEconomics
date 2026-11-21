@@ -1,11 +1,11 @@
-# Báo cáo cá nhân CP1 và CP2
+# Báo cáo cá nhân CP1 đến CP3
 
 ## 1. Thông tin thành viên
 
 - Họ tên: Võ Sỹ Thái Sơn
 - MSSV: 2A202603623
 - Email: …
-- Vai trong nhóm: Người 1, phụ trách phần A ở CP1 và phần B ở CP2.
+- Vai trong nhóm: Người 1, phụ trách phần A, phần B và bộ nhãn Người 1 ở CP3.
 
 ## 2. Phần việc phụ trách
 
@@ -13,11 +13,15 @@
 
 Ở CP2, em xem chi phí thay đổi bao nhiêu khi chỉnh từng yếu tố. Em cũng so ba mức giới hạn số lần chạy và tính thử trường hợp nhân viên phải xem lại 100% yêu cầu có kết quả trong phạm vi nội địa và hàng nặng.
 
+Ở CP3, phần em phụ trách là bộ nhãn Người 1 cho 20 tình huống hoàn phí trong đề. Mỗi ca được gắn một nhãn theo nguyên nhân chính.
+
 ## 3. Đóng góp cụ thể
 
 Em tạo môi trường Python trên máy và chạy CP1 bằng Git Bash trong repo của nhóm. Khi thiết lập môi trường lần đầu, máy em thiếu lệnh `py`, nên em dùng `python -m venv .venv` để tạo môi trường. Sau khi cài thư viện, em chạy lại và kiểm tra lần lượt các phần A1 đến A4.
 
 Với CP2, em chạy lại mô hình ở chín kịch bản B1 và so các dòng với bảng chi phí. Khi kiểm tra B3, em đọc cả cột chi phí của trợ lý lẫn cột chi phí cả hệ thống, vì yêu cầu trợ lý xử lý không xong vẫn phải chuyển cho nhân viên.
+
+Phần CP3 đã có đủ 20 nhãn trong cột Người 1. Ví dụ ca 18 được xếp vào lỗi ngữ cảnh vì số tiền hoàn đúng nhưng tin nhắn thiếu cách tính, nên khách tưởng bị hoàn thiếu.
 
 ## 4. Bằng chứng
 
@@ -49,12 +53,18 @@ Em chạy CP2 trong cùng thư mục:
 
 [Bảng chi phí của nhóm](bang_chi_phi.md) · [Mã chạy CP1 và CP2](../../src/lab13.py)
 
+Ở CP3, cột Người 1 có 4 ca do người dùng, 5 ca hệ thống, 4 ca ngữ cảnh, 4 ca giới hạn hệ thống và 3 ca lỗi ngầm. [Bảng nhãn CP3](bang_loi.md)
+
 ## 5. Công cụ AI đã dùng
 
 Em dùng Codex để hỗ trợ viết code và sửa lỗi khi cài môi trường. Claude giúp rà lại phép tính ở CP1, B3 và B4. Em tự chạy hai lệnh trên fork của nhóm rồi so số in ra với bảng chi phí.
+
+Ở CP3, em dùng Codex để đọc đề, gợi ý nhãn và kiểm tra cột Người 1 đã đủ 20 ca. Đây là bộ nhãn có AI hỗ trợ. Tỉ lệ đồng thuận sẽ được tính khi em và Người 2 cùng đối chiếu.
 
 ## 6. Tự đánh giá
 
 Điều em thấy dễ nhầm nhất là lấy 274,7 đ tiền token và tool trên mỗi yêu cầu để nói về chi phí xử lý. Phép tính của CP1 còn cộng tiền xem lại, làm lại và tính cả chi phí của những lần chạy lỗi. Tổng đó chỉ chia cho 978 ca làm thành công nên kết quả là 4.472 đ/ca (simulated), gấp khoảng 16,28 lần mức 274,7 đ.
 
 Ở CP2, em thấy chọn số lần chạy còn tùy mình nhìn vào cột nào. Giới hạn một lần nhìn rẻ hơn nếu chỉ tính các ca trợ lý làm xong, nhưng lại có thêm 85 ca không thành công so với mức hai lần. Khi cộng khoản nhân viên phải xử lý những ca đó, mức hai lần có tổng chi phí thấp hơn.
+
+Ở CP3, em thấy lỗi hệ thống và lỗi ngầm dễ lẫn. Ví dụ ca 17 cũng có lỗi dùng bảng giá cũ, nhưng được xếp vào lỗi ngầm vì sai lệch kéo dài mà không ai mở lại yêu cầu.
