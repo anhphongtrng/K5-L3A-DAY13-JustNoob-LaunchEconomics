@@ -22,10 +22,13 @@
 #
 # Căn cứ D3 từ src/logix_requests.csv (giả lập): mở lại 7 ngày = 51/1.200 (4,25%) toàn mẫu; 39/982 (3,97%) nếu lọc noi_dia + hang_nang.
 # Bỏ qua gợi ý = 48/177 (27,12%) trên các yêu cầu được xem lại. Lấy ngưỡng +2 điểm phần trăm, trần 6% và ngưỡng bỏ qua 40% từ hướng dẫn lab D3 làm ngưỡng vận hành.
+# Căn cứ phạm vi (bang_chi_phi.md, A3): noi_dia có 824 yêu cầu, thành công 95,0% và CPS 2.696 đ (simulated); hang_nang có 158 yêu cầu, thành công 74,1% và CPS 8.221 đ (simulated). Cả hai thấp hơn mức xử lý thủ công 12.000 đ.
+# Giữ quoc_te ngoài pilot vì CPS 22.515 đ (simulated) vượt mức thủ công; giữ doi_tac xử lý thủ công vì có điều khoản riêng, thành công 54,4% và CPS 10.215 đ (simulated), sát hơn mức thủ công.
+# Trước rollout, xác nhận danh sách 40 nhân viên đủ điều kiện tại các depot và khả năng thu ít nhất 299 yêu cầu trong phạm vi mỗi người theo D1(e).
 
 pilot:
   owner: "?"                      # một người có tên vai trò, không ghi "cả đội"
-  scope: "?"                      # loại yêu cầu nào, depot nào; dựa vào kết quả A3
+  scope: "Chỉ nhận yêu cầu noi_dia và hang_nang. Tuyển nhân viên từ 12 depot của LogiX-VN, chia 20 can thiệp và 20 đối chứng theo D2. Yêu cầu quoc_te và doi_tac tiếp tục xử lý thủ công."
   assignment:
     unit: staff
     control_share: 0.5
