@@ -1,21 +1,24 @@
-# Phiếu chấm hội đồng Gate 2a
+# Phiếu duyệt chéo Gate 2a · Hồ sơ NST
 
-Nhóm số n chấm nhóm số n + 1; nhóm cuối chấm nhóm 1. Chấm theo bằng chứng trong hồ sơ, không theo cách trình bày: một đề xuất No-go có lý do bằng số được điểm cao hơn một đề xuất Go bỏ qua con số bất lợi.
+| Vai trò | Nhóm |
+| --- | --- |
+| Hội đồng | JustNoob, L3A |
+| Nhóm được nhận xét | NST, L3A |
+| Căn cứ | Hồ sơ launch v0 của NST được gửi để duyệt chéo |
 
-- Nhóm chấm (hội đồng): ...
-- Nhóm được chấm: ...
+| Tiêu chí | Điểm đề xuất | Lý do |
+| --- | ---: | --- |
+| C6 · Đề xuất khớp bằng chứng | 10/10 | NST đề xuất Go có điều kiện. Hồ sơ nêu 5.865 đ/yêu cầu so với 12.000 đ thủ công, đồng thời cho thấy xem lại 100% có thể đẩy chi phí lên khoảng 12.415 đ/ca thành công nếu làm lại mất 15,3 phút. Nhóm có kế hoạch đo thời gian thật và giảm tỉ lệ xem lại theo điều kiện. |
+| C7 · Số giả lập và phạm vi | 10/10 | Các khoản tính từ thời gian xem lại và làm lại đã có nhãn simulated. NST chỉ chọn nội địa và hàng nặng, với chi phí lần lượt 2.696 đ và 8.221 đ/ca (simulated). Ba tỉ lệ ở mục 4 là chỉ số tính trực tiếp từ kết quả chạy thử, không dùng hai cột phút giả lập. |
+| C8 · Pilot ra được quyết định | 5/10 | Hồ sơ có đối chứng 20/20, nêu 299 yêu cầu/người, mức chênh 6 điểm và power khoảng 64% ở mức 5 điểm. Hồ sơ nhắc ba luật dừng nhưng cần xem nội dung cụ thể từng luật để xác nhận ngưỡng, thời gian và người có quyền dừng. |
+| **Tổng điểm tạm chấm** | **25/30** | Chấm theo hồ sơ launch NST được cung cấp. Điểm C8 được đối chiếu lại khi có nội dung ba luật dừng. |
 
-| Tiêu chí | 0 điểm | 5 điểm | 10 điểm | Điểm | Lý do (có số) |
-| --- | --- | --- | --- | ---: | --- |
-| Đề xuất khớp bằng chứng | Mâu thuẫn với số của chính nhóm | Khớp nhưng bỏ qua một con số bất lợi | Khớp, nêu cả con số bất lợi và cách xử lý | ... | ... |
-| Số giả lập và phạm vi | Không nhãn; phạm vi "mọi yêu cầu" | Có nhãn hoặc có thu hẹp phạm vi | Nhãn ở mọi số giả lập; phạm vi thu hẹp có lý do bằng số | ... | ... |
-| Pilot ra được quyết định | Không đối chứng hoặc thiếu cỡ mẫu | Đủ cỡ mẫu, luật dừng chung chung | Tách được tác động, đủ mẫu, luật dừng có ngưỡng, thời hạn, người có quyền dừng | ... | ... |
-| **Tổng** | | | | **... / 30** | |
+**Đề xuất duyệt** — Go có điều kiện. Trước khi chốt phiếu, đối chiếu ba luật dừng trong kế hoạch pilot của NST. Nếu các luật có ngưỡng, thời hạn và người có quyền dừng, C8 đạt 10/10 và tổng là 30/30.
 
-**Quyết định của hội đồng:** Go · Go có điều kiện · No-go (giữ một)
+**Câu hỏi đề xuất cho NST**
 
-**Lý do:** ...
+> Nếu chi phí pilot vượt mức thủ công, nhóm dùng ngưỡng nào, đo trong bao lâu và ai quyết định thu hẹp hoặc dừng?
 
-**Một câu hỏi cho đội trình:** ...
+**Câu trả lời của NST** — Chờ ghi nhận từ buổi duyệt chéo.
 
-**Câu trả lời của đội trình (ghi lại tại buổi):** ...
+Hồ sơ NST ghi 12.414 đ. Tính theo B4 với giả định 15,3 phút cho kết quả khoảng 12.414,79 đ, làm tròn thành 12.415 đ.
